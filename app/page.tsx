@@ -1,7 +1,7 @@
-import Image from 'next/image'
-
 export default function Home() {
   return (
-    "Hello Echo vibes"
+    <div>
+      Hello Echo vibes
+    </div>
   )
 }
