@@ -19,9 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={twMerge(`flex p-2 gap-2 max-h-screen`, inter.className)}>
+      <body
+        className={twMerge(
+          `flex justify-between p-2 max-h-screen`,
+          inter.className
+        )}
+      >
         <Sidebar />
-        <div className="w-full bg-[#121212] h-screen">{children}</div>
+        <div className="w-full bg-[#121212] h-screen ml-2">{children}</div>
       </body>
     </html>
   );
