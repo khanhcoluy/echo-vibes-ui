@@ -1,7 +1,3 @@
-export default function Home() {
-  return (
-    <div>
-      Hello Echo vibes
-    </div>
-  )
+export default function MainPage() {
+  return <div>Hello Echo vibes</div>;
 }

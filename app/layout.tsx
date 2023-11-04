@@ -1,6 +1,8 @@
 import Sidebar from '@/components/Sidebar';
 import type { Metadata } from 'next';
 import { Figtree } from 'next/font/google';
+import { twMerge } from 'tailwind-merge';
+
 import './globals.css';
 
 const inter = Figtree({ subsets: ['latin'] });
@@ -17,9 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={twMerge(`flex p-2 gap-2 max-h-screen`, inter.className)}>
         <Sidebar />
-        {children}
+        <div className="w-full bg-[#121212] h-screen">{children}</div>
       </body>
     </html>
   );
