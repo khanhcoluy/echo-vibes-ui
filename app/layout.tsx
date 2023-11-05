@@ -26,7 +26,7 @@ export default function RootLayout({
         )}
       >
         <Sidebar />
-        <div className="w-full bg-[#121212] h-screen ml-2">{children}</div>
+        <div className="w-full bg-primary h-screen ml-2">{children}</div>
       </body>
     </html>
   );
