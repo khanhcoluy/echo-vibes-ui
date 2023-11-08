@@ -1,9 +1,9 @@
 'use client';
 
 import { GoHome, GoHomeFill } from 'react-icons/go';
-import { BiSearch, BiSearchAlt } from 'react-icons/bi';
+import { BiSearch, BiSolidSearch } from 'react-icons/bi';
 import { usePathname } from 'next/navigation';
-import NavigationItem from './NavigationItem';
+import NavigationItem from './SidebarNavigationItem';
 
 const Navigation: React.FC = () => {
   const pathName = usePathname();
@@ -18,7 +18,7 @@ const Navigation: React.FC = () => {
     {
       label: 'Search',
       active: pathName === '/search',
-      icon: pathName === '/search' ? BiSearchAlt : BiSearch,
+      icon: pathName === '/search' ? BiSolidSearch : BiSearch,
       href: '/search',
     },
   ];

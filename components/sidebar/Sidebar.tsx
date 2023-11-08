@@ -1,5 +1,5 @@
-import Library from './Library';
-import Navigation from './Navigation';
+import Library from './sidebarLibrary/Library';
+import Navigation from './sidebarNavigation/SidebarNavigation';
 
 const Sidebar = () => {
   return (

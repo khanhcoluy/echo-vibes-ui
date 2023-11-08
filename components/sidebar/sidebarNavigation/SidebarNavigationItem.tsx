@@ -19,7 +19,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
     <li className="flex items-center">
       <Link
         href={href}
-        className="flex items-center px-[12px] py-[4px] gap-3 cursor-pointer w-full"
+        className="flex items-center px-1.5 py-2 gap-3 cursor-pointer w-full"
       >
         <Icon
           className={twMerge('text-secondary-color', active && 'text-white')}
