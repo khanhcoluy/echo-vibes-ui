@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { inherits } from 'util';
 
 import Library from './sidebarLibrary/Library';
 import Navigation from './sidebarNavigation/SidebarNavigation';
@@ -27,8 +28,11 @@ const Sidebar = () => {
   }, [isResizing]);
 
   return (
-    <div className="relative sidebar w-[450px] h-screen">
-      <div className="flex flex-col gap-y-2 h-full">
+    <div className="relative sidebar w-[350px] h-screen">
+      <div
+        style={{ width: 'inherit' }}
+        className="flex flex-col gap-y-2 h-full"
+      >
         <Navigation />
         <Library />
       </div>
