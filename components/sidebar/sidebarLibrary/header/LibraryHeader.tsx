@@ -7,7 +7,7 @@ const LibraryHeader = () => {
       <header className="text-secondary-color flex justify-between items-center px-4 py-2 gap-3 w-full">
         <div className="flex gap-3 cursor-pointer hover:text-primary-color ">
           <BiLibrary size={25} />
-          <p>Library</p>
+          <p>Your Library</p>
         </div>
         <div className="flex gap-1">
           <button className="flex justify-center items-center hover:text-primary-color hover:bg-slate-800 w-7 h-7 rounded-full">
