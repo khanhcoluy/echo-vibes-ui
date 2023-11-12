@@ -18,7 +18,19 @@ const LibraryHeader = () => {
           </button>
         </div>
       </header>
-      <div>FilterGenreBox</div>
+      <div className="filter-options-badge">
+        <div className="px-4 py-2 flex gap-2">
+          <button className="text-sm bg-[#222323] rounded-2xl px-2 py-1">
+            Playlist
+          </button>
+          <button className="text-sm bg-[#222323] rounded-2xl px-2 py-1">
+            Albums
+          </button>
+          <button className="text-sm bg-[#222323] rounded-2xl px-2 py-1">
+            Podcasts & Shows
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
