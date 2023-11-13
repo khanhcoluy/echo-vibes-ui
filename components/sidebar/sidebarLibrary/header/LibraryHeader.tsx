@@ -19,7 +19,7 @@ const LibraryHeader = () => {
         </div>
       </header>
       <div className="filter-options-badge">
-        <div className="px-4 py-2 flex gap-2">
+        <div className="px-3 py-2 flex gap-2">
           <button className="text-sm bg-[#222323] rounded-2xl px-2 py-1">
             Playlist
           </button>

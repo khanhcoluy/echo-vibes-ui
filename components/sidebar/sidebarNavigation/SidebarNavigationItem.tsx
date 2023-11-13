@@ -16,15 +16,13 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
   label,
 }) => {
   return (
-    <li className="flex items-center ">
-      <Link
-        href={href}
-        className="flex items-center text-secondary-color hover:text-primary-color ease-in-out duration-300 px-1.5 py-2 gap-3 cursor-pointer w-full"
-      >
-        <Icon className={twMerge(active && 'text-white')} size={25} />
-        <p className={twMerge(active && 'text-white')}>{label}</p>
-      </Link>
-    </li>
+    <Link
+      href={href}
+      className="flex items-center text-secondary-color hover:text-primary-color ease-in-out duration-300 px-1.5 py-2 gap-3 cursor-pointer w-full"
+    >
+      <Icon className={twMerge(active && 'text-white')} size={25} />
+      <p className={twMerge(active && 'text-white')}>{label}</p>
+    </Link>
   );
 };
 

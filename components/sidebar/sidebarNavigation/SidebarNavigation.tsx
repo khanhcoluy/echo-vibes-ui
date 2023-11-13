@@ -28,13 +28,14 @@ const Navigation: React.FC = () => {
       <div className="bg-primary w-full h-[130px] justify-center">
         <ul className="h-full flex flex-col px-[12px] py-[8px] justify-around">
           {navigationMenu.map((navigationItem, index) => (
-            <NavigationItem
-              key={index}
-              icon={navigationItem.icon}
-              label={navigationItem.label}
-              active={navigationItem.active}
-              href={navigationItem.href}
-            />
+            <li className="flex items-center" key={index}>
+              <NavigationItem
+                icon={navigationItem.icon}
+                label={navigationItem.label}
+                active={navigationItem.active}
+                href={navigationItem.href}
+              />
+            </li>
           ))}
         </ul>
       </div>
