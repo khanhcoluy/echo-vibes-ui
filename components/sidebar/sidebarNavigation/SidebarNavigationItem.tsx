@@ -21,7 +21,9 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
       className="flex items-center text-secondary-color hover:text-primary-color ease-in-out duration-300 px-1.5 py-2 gap-3 cursor-pointer w-full"
     >
       <Icon className={twMerge(active && 'text-white')} size={25} />
-      <p className={twMerge(active && 'text-white')}>{label}</p>
+      <p className={twMerge('font-semibold', active && 'text-white')}>
+        {label}
+      </p>
     </Link>
   );
 };
