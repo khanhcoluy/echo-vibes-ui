@@ -1,3 +1,9 @@
+import ContentHeader from '@/components/content/header/ContentHeader';
+
 export default function MainPage() {
-  return <div>Hello Echo vibes</div>;
+  return (
+    <div>
+      <ContentHeader />
+    </div>
+  );
 }

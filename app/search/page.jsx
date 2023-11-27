@@ -1,5 +1,11 @@
+import ContentHeader from '@/components/content/header/ContentHeader';
+
 const SearchPage = () => {
-  return <div>SearchPage</div>;
+  return (
+    <div>
+      <ContentHeader />
+    </div>
+  );
 };
 
 export default SearchPage;

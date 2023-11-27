@@ -3,8 +3,8 @@ import { RiPushpinFill } from 'react-icons/ri';
 
 const LibraryPlaylist = () => {
   return (
-    <div className="h-full px-3 py-2 bg-primary overflow-y-scroll scroll-bar">
-      <ul className="h-screen">
+    <div className=" h-full px-3 py-2 bg-primary overflow-y-scroll scroll-bar">
+      <ul className="h-auto">
         <li className="flex p-2">
           <Image
             src="/images/liked.png"
