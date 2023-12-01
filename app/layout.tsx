@@ -26,7 +26,7 @@ export default function RootLayout({
         )}
       >
         <Sidebar />
-        <div className="w-full bg-primary h-screen ml-2 text-white">
+        <div className="relative flex flex-col w-full bg-primary h-screen ml-2 text-white overflow-x-hidden overflow-y-auto gap-10">
           {children}
         </div>
       </body>
