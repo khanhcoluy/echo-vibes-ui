@@ -19,7 +19,7 @@ const SectionList = ({
   return (
     <div className={`flex gap-4 ${sectionPage ? 'flex-wrap' : ''}`}>
       {listItem(list).map((item) => (
-        <SectionItem key={item.idItem} item={item} />
+        <SectionItem key={item.itemId} item={item} />
       ))}
     </div>
   );

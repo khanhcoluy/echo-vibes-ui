@@ -8,14 +8,14 @@ const SectionItem = ({ item }: { item: SectionItemDataType }) => {
         width={320}
         height={320}
         className={`w-full aspect-square ${
-          item.modeItem === 'artist' ? 'rounded-full' : 'rounded-md'
+          item.itemType === 'artist' ? 'rounded-full' : 'rounded-md'
         }`}
-        alt={item.titleItem}
-        src={item.imgItem}
+        alt={item.itemTitle}
+        src={item.itemImg}
       />
       <div>
-        <h6 className="font-bold pb-1">{item.titleItem}</h6>
-        <p className="text-secondary text-sm line-clamp-2">{item.descItem}</p>
+        <h6 className="font-bold pb-1">{item.itemTitle}</h6>
+        <p className="text-secondary text-sm line-clamp-2">{item.itemDesc}</p>
       </div>
     </div>
   );
