@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
 import {
   Modal,
   ModalContent,
@@ -12,10 +14,16 @@ import {
 import { EyeFilledIcon } from '../custom-icons/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../custom-icons/EyeSlashFilledIcon';
 import { MailIcon } from '../custom-icons/MailIcon';
+import { type } from 'os';
 
 export interface LoginModalProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+}
+
+export interface LoginFormData {
+  email: string;
+  password: string;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({
@@ -24,6 +32,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [value, setValue] = useState('');
+  const { register, handleSubmit } = useForm<LoginFormData>();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const validateEmail = (value: string) =>
@@ -34,16 +43,50 @@ const LoginModal: React.FC<LoginModalProps> = ({
     return validateEmail(value) ? false : true;
   }, [value]);
 
+  const onSubmit: SubmitHandler<LoginFormData> = async ({
+    email,
+    password,
+  }) => {
+    const formData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/v1/auth/authenticate',
+        formData,
+        // Todo fix issue here
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          },
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-[#262626]">
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      className="bg-[#262626]"
+      backdrop="blur"
+    >
       <ModalContent className="d-flex ">
         {(onClose) => (
-          <>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <ModalHeader className="flex flex-col gap-1 text-white">
               Login
             </ModalHeader>
             <ModalBody className="w-full text-white">
               <Input
+                {...register('email')}
                 type="email"
                 label="Email"
                 placeholder="Enter your email"
@@ -58,6 +101,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 }
               />
               <Input
+                {...register('password')}
                 label="Password"
                 placeholder="Enter your password"
                 variant="bordered"
@@ -83,11 +127,11 @@ const LoginModal: React.FC<LoginModalProps> = ({
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button onPress={onClose} className="bg-[#1ed760]">
+              <Button type="submit" className="bg-[#1ed760]">
                 Login
               </Button>
             </ModalFooter>
-          </>
+          </form>
         )}
       </ModalContent>
     </Modal>
