@@ -8,8 +8,10 @@ import { HiHome } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import Button from '@/components/common/Button';
 import LoginModal from '@/components/modal/LoginModal';
-import { useState } from 'react';
 import { useDisclosure } from '@nextui-org/react';
+import useAuth from '@/components/hooks/useAuth';
+import { AuthContextType } from '@/components/hooks/useAuthContext';
+import { isEmpty } from 'lodash';
 
 interface ContentHeaderProps {
   className?: string;
@@ -17,7 +19,8 @@ interface ContentHeaderProps {
 
 const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
   const router = useRouter();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { auth } = useAuth() as AuthContextType;
 
   return (
     <div
@@ -100,7 +103,7 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
-          {false ? ( // pass user is present or not here
+          {!isEmpty(auth) ? ( // pass user is present or not here
             <div className="flex items-center">
               <Button
                 onClick={() => router.push('/account')}
@@ -132,7 +135,11 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
           )}
         </div>
       </div>
-      <LoginModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <LoginModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onClose={onClose}
+      />
     </div>
   );
 };

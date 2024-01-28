@@ -1,7 +1,7 @@
-import ContentHeader from '@/components/content/header/ContentHeader';
-import SectionPage from '@/components/content/section/SectionPage';
+import ContentHeader from '@/components/home-content/header/ContentHeader';
+import SectionPage from '@/components/home-content/section/SectionPage';
 
-export default function MainPage() {
+export default function HomePage() {
   return (
     <>
       <ContentHeader />

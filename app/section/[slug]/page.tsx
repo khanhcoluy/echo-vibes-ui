@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation';
 
-import ContentHeader from '@/components/content/header/ContentHeader';
-import SectionContainer from '@/components/content/section/SectionContainer';
+import ContentHeader from '@/components/home-content/header/ContentHeader';
+import SectionContainer from '@/components/home-content/section/SectionContainer';
 
 import { getSectionDataById } from '@/components/MockData';
 

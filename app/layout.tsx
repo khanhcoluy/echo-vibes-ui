@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import Sidebar from '@/components/sidebar/Sidebar';
 
 import './globals.css';
+import { AuthProvider } from '@/components/hooks/useAuthContext';
 
 const inter = Figtree({ subsets: ['latin'] });
 
@@ -26,10 +27,12 @@ export default function RootLayout({
           inter.className
         )}
       >
-        <Sidebar />
-        <div className="relative flex flex-col w-full bg-primary h-screen ml-2 text-white overflow-x-hidden overflow-y-auto gap-10">
-          {children}
-        </div>
+        <AuthProvider>
+          <Sidebar />
+          <div className="relative flex flex-col w-full bg-primary h-screen ml-2 text-white overflow-x-hidden overflow-y-auto gap-10">
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-import ContentHeader from '@/components/content/header/ContentHeader';
+import ContentHeader from '@/components/home-content/header/ContentHeader';
 
 const SearchPage = () => {
   return (

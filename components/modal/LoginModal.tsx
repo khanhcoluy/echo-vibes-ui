@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
+import axios from '../api/axios';
 import {
   Modal,
   ModalContent,
@@ -11,14 +11,16 @@ import {
   Input,
 } from '@nextui-org/react';
 
-import { EyeFilledIcon } from '../custom-icons/EyeFilledIcon';
-import { EyeSlashFilledIcon } from '../custom-icons/EyeSlashFilledIcon';
-import { MailIcon } from '../custom-icons/MailIcon';
-import { type } from 'os';
+import { EyeFilledIcon } from '../../app/custom-icons/EyeFilledIcon';
+import { EyeSlashFilledIcon } from '../../app/custom-icons/EyeSlashFilledIcon';
+import { MailIcon } from '../../app/custom-icons/MailIcon';
+import useAuth from '../hooks/useAuth';
+import { AuthContextType } from '../hooks/useAuthContext';
 
 export interface LoginModalProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  onClose: () => void;
 }
 
 export interface LoginFormData {
@@ -26,13 +28,17 @@ export interface LoginFormData {
   password: string;
 }
 
+const LOGIN_URL = 'auth/authenticate';
+
 const LoginModal: React.FC<LoginModalProps> = ({
   isOpen = false,
   onOpenChange,
+  onClose,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [value, setValue] = useState('');
   const { register, handleSubmit } = useForm<LoginFormData>();
+  const { setAuth } = useAuth() as AuthContextType;
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const validateEmail = (value: string) =>
@@ -47,25 +53,16 @@ const LoginModal: React.FC<LoginModalProps> = ({
     email,
     password,
   }) => {
-    const formData = {
-      email,
-      password,
-    };
-
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/auth/authenticate',
-        formData,
-        // Todo fix issue here
-        {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          },
-        }
-      );
+      const {
+        data: { accessToken },
+      } = await axios.post(LOGIN_URL, {
+        email,
+        password,
+      });
 
-      console.log(response);
+      setAuth({ accessToken, email });
+      onClose();
     } catch (error) {
       console.error(error);
     }
