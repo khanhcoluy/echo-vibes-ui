@@ -12,15 +12,29 @@ import { useDisclosure } from '@nextui-org/react';
 import useAuth from '@/components/hooks/useAuth';
 import { AuthContextType } from '@/components/hooks/useAuthContext';
 import { isEmpty } from 'lodash';
+import { useState } from 'react';
 
 interface ContentHeaderProps {
   className?: string;
 }
 
+type ModalType = 'login' | 'signup';
+
 const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { auth } = useAuth() as AuthContextType;
+  const [modalType, setModalType] = useState<ModalType>('login');
+
+  const onLoginModalClick = () => {
+    setModalType('login');
+    onOpen();
+  };
+
+  const onSignupModalClick = () => {
+    setModalType('signup');
+    onOpen();
+  };
 
   return (
     <div
@@ -116,7 +130,7 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
             <>
               <div>
                 <Button
-                  // onClick={authModal.onOpen}
+                  onClick={onSignupModalClick}
                   className="
                     bg-transparent 
                     text-neutral-300 
@@ -127,7 +141,10 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
                 </Button>
               </div>
               <div>
-                <Button onClick={onOpen} className="bg-white px-6 py-2">
+                <Button
+                  onClick={onLoginModalClick}
+                  className="bg-white px-6 py-2"
+                >
                   Log in
                 </Button>
               </div>
@@ -139,6 +156,7 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onClose={onClose}
+        modalType={modalType}
       />
     </div>
   );
