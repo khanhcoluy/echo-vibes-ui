@@ -13,11 +13,11 @@ import {
 
 import { EyeFilledIcon } from '../../app/custom-icons/EyeFilledIcon';
 import { EyeSlashFilledIcon } from '../../app/custom-icons/EyeSlashFilledIcon';
-import { MailIcon } from '../../app/custom-icons/MailIcon';
 import useAuth from '../hooks/useAuth';
 import { AuthContextType } from '../hooks/useAuthContext';
+import { isEmpty, last } from 'lodash';
 
-export interface LoginModalProps {
+export interface AuthModalProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onClose: () => void;
@@ -34,8 +34,9 @@ export interface LoginFormData {
 
 const LOGIN_URL = 'auth/authenticate';
 const SIGNUP_URL = 'auth/register';
+const EMAIL_PATTERN_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i;
 
-const LoginModal: React.FC<LoginModalProps> = ({
+const AuthModal: React.FC<AuthModalProps> = ({
   isOpen = false,
   onOpenChange,
   onClose,
@@ -47,31 +48,43 @@ const LoginModal: React.FC<LoginModalProps> = ({
   const [value, setValue] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
+    clearErrors,
   } = useForm<LoginFormData>();
-  const { setAuth } = useAuth() as AuthContextType;
 
+  const { setAuth } = useAuth() as AuthContextType;
   const toggleVisibility = () => setIsVisible(!isVisible);
   const toggleConfirmPasswordVisibility = () =>
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
 
-  const validateEmail = (value: string) =>
-    value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i);
+  const validateEmail = (value: string) => value.match(EMAIL_PATTERN_REGEX);
 
   const isEmailInvalid = useMemo(() => {
     if (value === '') return false;
     return validateEmail(value) ? false : true;
   }, [value]);
 
-  const checkPasswordMatch = (): boolean => {
+  const checkPasswordMatch = useMemo((): boolean => {
     if (!confirmPassword) {
       return true;
     }
-    return password === confirmPassword;
-  };
+    const isEqual = password === confirmPassword;
+    if (isEqual) {
+      clearErrors('confirmPassword');
+    } else {
+      setError('confirmPassword', {
+        type: 'validate',
+        message: 'Confirm password must match Password',
+      });
+    }
+
+    return isEqual;
+  }, [password, confirmPassword]);
 
   const onSubmit: SubmitHandler<LoginFormData> = async ({
     firstName,
@@ -97,6 +110,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
       setAuth({ accessToken, email });
       onClose();
     } catch (error) {
+      // Todo: implement return back error message when there's error (email is already in use), clear state and error when close modal
       console.error(error);
     }
   };
@@ -118,7 +132,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
               {modalType === 'signup' && (
                 <>
                   <Input
-                    {...register('firstName')}
+                    {...register('firstName', { required: true })}
                     type="text"
                     label="First name"
                     placeholder="Enter your first name"
@@ -127,7 +141,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
                     variant="bordered"
                   />
                   <Input
-                    {...register('lastName')}
+                    {...register('lastName', { required: true })}
                     type="text"
                     label="Last name"
                     placeholder="Enter your last name"
@@ -138,7 +152,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 </>
               )}
               <Input
-                {...register('email')}
+                {...register('email', {
+                  required: true,
+                  pattern: {
+                    value: EMAIL_PATTERN_REGEX,
+                    message: 'Email is not valid',
+                  },
+                })}
                 type="email"
                 label="Email"
                 placeholder="Enter your email"
@@ -150,7 +170,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 onValueChange={setValue}
               />
               <Input
-                {...register('password')}
+                {...register('password', {
+                  required: true,
+                })}
                 label="Password"
                 placeholder="Enter your password"
                 variant="bordered"
@@ -174,16 +196,16 @@ const LoginModal: React.FC<LoginModalProps> = ({
               />
               {modalType === 'signup' && (
                 <Input
-                  {...register('confirmPassword')}
+                  {...register('confirmPassword', {
+                    required: true,
+                  })}
                   label="Cornfirm password"
                   placeholder="Confirm your password"
                   variant="bordered"
                   color="secondary"
                   isRequired
-                  isInvalid={!checkPasswordMatch()}
-                  errorMessage={
-                    !checkPasswordMatch() && 'Passwords do not match'
-                  }
+                  isInvalid={!checkPasswordMatch}
+                  errorMessage={!checkPasswordMatch && 'Passwords do not match'}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -206,7 +228,11 @@ const LoginModal: React.FC<LoginModalProps> = ({
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button type="submit" className="bg-[#1ed760]">
+              <Button
+                type="submit"
+                className="bg-[#1ed760]"
+                isDisabled={!isEmpty(errors)}
+              >
                 {modalType === 'signup' ? 'Sign up' : 'Login'}
               </Button>
             </ModalFooter>
@@ -217,4 +243,4 @@ const LoginModal: React.FC<LoginModalProps> = ({
   );
 };
 
-export default LoginModal;
+export default AuthModal;

@@ -7,8 +7,14 @@ import { FaRegUser } from 'react-icons/fa';
 import { HiHome } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import Button from '@/components/common/Button';
-import LoginModal from '@/components/modal/LoginModal';
-import { useDisclosure } from '@nextui-org/react';
+import AuthModal from '@/components/modal/AuthModal';
+import {
+  useDisclosure,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from '@nextui-org/react';
 import useAuth from '@/components/hooks/useAuth';
 import { AuthContextType } from '@/components/hooks/useAuthContext';
 import { isEmpty } from 'lodash';
@@ -23,7 +29,7 @@ type ModalType = 'login' | 'signup';
 const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
   const router = useRouter();
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const { auth } = useAuth() as AuthContextType;
+  const { auth, setAuth } = useAuth() as AuthContextType;
   const [modalType, setModalType] = useState<ModalType>('login');
 
   const onLoginModalClick = () => {
@@ -117,15 +123,23 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
-          {!isEmpty(auth) ? ( // pass user is present or not here
-            <div className="flex items-center">
-              <Button
-                onClick={() => router.push('/account')}
-                className="bg-black p-3"
-              >
-                <FaRegUser className="text-white" />
-              </Button>
-            </div>
+          {!isEmpty(auth) ? (
+            <Dropdown className="flex items-center bg-[#282828] rounded text-white">
+              <DropdownTrigger>
+                <Button className="bg-black p-3">
+                  <FaRegUser className="text-white" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="User profile dropdown actions">
+                <DropdownItem
+                  className="rounded"
+                  key="logout"
+                  onClick={() => setAuth({})}
+                >
+                  Logout
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           ) : (
             <>
               <div>
@@ -152,7 +166,7 @@ const ContentHeader: React.FC<ContentHeaderProps> = ({ className }) => {
           )}
         </div>
       </div>
-      <LoginModal
+      <AuthModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         onClose={onClose}
